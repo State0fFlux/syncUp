@@ -6,6 +6,7 @@ import {
   GoogleAuthProvider
 } from 'firebase/auth';
 import { auth } from './services/firebaseService';
+import { ensureUserProfile } from './services/firebaseService';
 
 const HeaderIcon = () => (
     <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-brand-primary mx-auto">
@@ -36,8 +37,16 @@ const Auth: React.FC = () => {
     try {
       if (isLogin) {
         await signInWithEmailAndPassword(auth, email, password);
+        await ensureUserProfile(auth.currentUser!.uid, {
+          displayName: auth.currentUser!.displayName || undefined,
+          photoURL: auth.currentUser!.photoURL || undefined
+        });
       } else {
         await createUserWithEmailAndPassword(auth, email, password);
+        await ensureUserProfile(auth.currentUser!.uid, {
+          displayName: auth.currentUser!.displayName || undefined,
+          photoURL: auth.currentUser!.photoURL || undefined
+        });
       }
     } catch (err: any) {
       setError(err.message);
@@ -53,6 +62,10 @@ const Auth: React.FC = () => {
     try {
         const provider = new GoogleAuthProvider();
         await signInWithPopup(auth, provider);
+        await ensureUserProfile(auth.currentUser!.uid, {
+          displayName: auth.currentUser!.displayName || undefined,
+          photoURL: auth.currentUser!.photoURL || undefined
+        });
     } catch (err: any) {
         setError(err.message);
     } finally {

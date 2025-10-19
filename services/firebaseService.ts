@@ -4,6 +4,7 @@ import { getFirestore, collection, getDocs, query } from "firebase/firestore";
 import { firebaseConfig } from '../config';
 import { User, Activity } from '../types';
 import { MOCK_USERS, MOCK_ACTIVITIES } from './mockData';
+import { doc, getDoc, setDoc, updateDoc } from "firebase/firestore";
 
 const isConfigMissing = !firebaseConfig.apiKey || !firebaseConfig.projectId;
 
@@ -75,4 +76,33 @@ export const fetchAllActivities = async (): Promise<Activity[]> => {
     console.error("Error fetching activities from Firestore. Falling back to mock data:", error);
     return MOCK_ACTIVITIES; // Fallback to mock data on error
   }
+};
+
+// Ensure a Firestore document exists for the logged-in user
+export const ensureUserProfile = async (uid: string, basicInfo: { displayName?: string; photoURL?: string }) => {
+  if (!db) return null;
+
+  const userRef = doc(db, "users", uid);
+  const snap = await getDoc(userRef);
+
+  if (!snap.exists()) {
+    await setDoc(userRef, {
+      id: uid,
+      name: basicInfo.displayName || "New User",
+      avatarUrl: basicInfo.photoURL || "https://placehold.co/100x100",
+      bio: "",
+      interests: [],
+      friends: [],
+      createdAt: new Date()
+    });
+  }
+
+  return getDoc(userRef); // returns the document snapshot
+};
+
+// Update a user profile in Firestore
+export const updateUserProfile = async (uid: string, updates: Partial<User>) => {
+  if (!db) return;
+  const userRef = doc(db, "users", uid);
+  await updateDoc(userRef, updates);
 };

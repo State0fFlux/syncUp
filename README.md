@@ -2,6 +2,10 @@
 In today’s fast-paced world, staying connected with friends and meeting new people nearby can be challenging. We noticed that coordinating social activities often involves multiple apps, manual scheduling, and uncertainty about who’s available and when. There is no simple way to know when friends are free, nearby, or engaged in an activity you could join. Coordinating social time can be stressful, especially with **conflicting schedules** and last-minute changes. Busy lifestyles also make it difficult to **keep up with friends** without fear of avoid overcommitting.
 
 We were inspired by the desire to strengthen human connections and make social coordination effortless. Urban neighborhoods and campuses can feel particularly isolating, where residents and students rarely interact meaningfully. As such, we wanted to build a solution that makes **connecting easier, more spontaneous, and stress-free**. 
+
+## Credits
+Created by Viba Raghunathan and Brady Manske for DubHacks 2025
+
 ## Features
 syncUp aims to support connections both old and new, by providing the user with **two toggleable modes** at the top of the interface:
 

@@ -72,7 +72,7 @@ const Auth: React.FC = () => {
     <div className="min-h-screen flex items-center justify-center bg-brand-light px-4">
       <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg">
         <HeaderIcon/>
-        <h1 className="text-3xl font-bold text-center text-brand-dark mt-4">Welcome to SyncUp</h1>
+        <h1 className="text-3xl font-bold text-center text-brand-dark mt-4">Welcome to syncUp</h1>
         <p className="text-center text-slate-500 mt-2">
           {isLogin ? 'Sign in to find your circle.' : 'Create an account to get started.'}
         </p>

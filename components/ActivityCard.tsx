@@ -1,6 +1,7 @@
 
 import React from 'react';
 import { Activity, User } from '../types';
+import JoinButton from '../components/JoinButton';
 
 interface ActivityCardProps {
   activity: Activity;
@@ -29,9 +30,7 @@ const ActivityCard: React.FC<ActivityCardProps> = ({ activity, author }) => {
           </span>
         </div>
       </div>
-      <button className="join text-white text-sm font-semibold px-4 py-2 rounded-full hover:opacity-90 transition-opacity">
-        Join
-      </button>
+      <JoinButton></JoinButton>
     </div>
   );
 };

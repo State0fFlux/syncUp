@@ -7,64 +7,65 @@ export const MOCK_USERS: User[] = [
   {
     id: 'user-1',
     name: 'You',
-    avatarUrl: `https://picsum.photos/seed/you/200`,
+    avatarUrl: `https://m.media-amazon.com/images/I/41miU+cgrLL._UF1000,1000_QL80_.jpg`,
     status: UserStatus.Free,
     interests: ['music', 'coffee', 'fitness', 'startups'],
-    location: { lat: 34.0522, lng: -118.2437, zone: 'Downtown LA' },
-    friends: ['user-2', 'user-3', 'user-4'],
-    bio: "hello!"
+    location: { lat: 47.6540, lng: -122.3100, zone: 'UW West Campus' },
+    friends: ['user-3', 'user-4', 'user-6'],
+    bio: "Add bio..."
   },
   {
     id: 'user-2',
     name: 'Maya',
-    avatarUrl: `https://picsum.photos/seed/maya/200`,
+    avatarUrl: `https://m.media-amazon.com/images/I/41FsVcMh1RL._UF1000,1000_QL80_.jpg`,
     status: UserStatus.Social,
     interests: ['hiking', 'art', 'coffee'],
-    location: { lat: 34.06, lng: -118.25, zone: 'Echo Park' },
+    location: { lat: 47.6600, lng: -122.3080, zone: 'UW North Campus' },
     friends: ['user-1'],
     bio: ""
   },
   {
     id: 'user-3',
     name: 'Alex',
-    avatarUrl: `https://picsum.photos/seed/alex/200`,
+    avatarUrl: `https://m.media-amazon.com/images/I/41B3Q0XgFVL._UF1000,1000_QL80_.jpg`,
     status: UserStatus.Busy,
     interests: ['tech', 'gaming', 'startups'],
-    location: { lat: 34.1, lng: -118.3, zone: 'Hollywood' },
+    location: { lat: 47.6255, lng: -122.3205, zone: 'Capitol Hill' },
     friends: ['user-1', 'user-4'],
     bio: ""
   },
   {
     id: 'user-4',
     name: 'Chloe',
-    avatarUrl: `https://picsum.photos/seed/chloe/200`,
+    avatarUrl: `https://m.media-amazon.com/images/I/41mSIgdsHvL.jpg`,
     status: UserStatus.Free,
     interests: ['music', 'reading', 'yoga'],
-    location: { lat: 34.04, lng: -118.26, zone: 'Arts District' },
+    location: { lat: 47.6270, lng: -122.3220, zone: 'Capitol Hill' },
     friends: ['user-1', 'user-3'],
     bio: ""
   },
   {
     id: 'user-5',
     name: 'Ben',
-    avatarUrl: `https://picsum.photos/seed/ben/200`,
+    avatarUrl: `https://m.media-amazon.com/images/I/41ONa5HOwfL.jpg`,
     status: UserStatus.Free,
     interests: ['fitness', 'startups', 'coffee'],
-    location: { lat: 34.055, lng: -118.24, zone: 'Little Tokyo' },
+    location: { lat: 47.6585, lng: -122.3055, zone: 'University of Washington' },
     friends: [],
     bio: ""
   },
   {
     id: 'user-6',
     name: 'Sara',
-    avatarUrl: `https://picsum.photos/seed/sara/200`,
+    avatarUrl: `https://m.media-amazon.com/images/I/41IK02LISNL._UF1000,1000_QL80_.jpg`,
     status: UserStatus.Social,
     interests: ['art', 'music', 'foodie'],
-    location: { lat: 34.07, lng: -118.23, zone: 'Silver Lake' },
+    location: { lat: 47.6570, lng: -122.3035, zone: 'University of Washington' },
     friends: [],
     bio: ""
   },
 ];
+
 
 export const MOCK_ACTIVITIES: Activity[] = [
   {

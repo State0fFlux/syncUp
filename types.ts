@@ -2,6 +2,7 @@
 export enum AppMode {
   Friends = 'My Circle',
   Community = 'Discover',
+  Profile = "Profile"
 }
 
 export enum UserStatus {
@@ -22,6 +23,7 @@ export interface User {
     zone: string;
   };
   friends: string[]; // array of user ids
+  bio: string;
 }
 
 export interface Activity {

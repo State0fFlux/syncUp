@@ -7,6 +7,7 @@ import Auth from './Auth';
 import ModeToggle from './components/ModeToggle';
 import FriendsMode from './views/FriendsMode';
 import CommunityMode from './views/CommunityMode';
+import { ProfilePage } from './views/ProfilePage';
 import ChatBox from './components/ChatBox';
 
 const HeaderIcon = () => (
@@ -135,7 +136,7 @@ const App: React.FC = () => {
             <HeaderIcon/>
             <h1 className="text-2xl font-bold text-brand-dark">SyncUp</h1>
           </div>
-          <img src={currentUser.avatarUrl} alt="Your Avatar" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" />
+          <img src={currentUser.avatarUrl} alt="Your Avatar" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" onClick={() => setMode(AppMode.Profile)} />
         </header>
         
         <div className="flex justify-center my-4">
@@ -150,7 +151,7 @@ const App: React.FC = () => {
               activities={allActivities}
               allUsers={allUsers}
             />
-          ) : (
+          ) : mode === AppMode.Community ? (
             <CommunityMode 
               currentUser={currentUser}
               potentialConnections={potentialConnections}
@@ -158,8 +159,16 @@ const App: React.FC = () => {
               allUsers={allUsers}
               onConnect={handleConnect}
             />
+          ) : (
+            <ProfilePage 
+              currentUser={currentUser} 
+              setCurrentUser={(u) => {
+                setAllUsers(prev => prev.map(user => user.id === u.id ? u : user));
+              }} 
+            />
           )}
         </main>
+
 
         {/* Chat Modal */}
         {chattingWith && (

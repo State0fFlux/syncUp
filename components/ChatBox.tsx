@@ -4,10 +4,11 @@ import { User } from "../types";
 
 interface ChatBoxProps {
 	currentUser: User;
-	otherUser: User;
+  otherUser: User;
+  onSend: () => void;
 }
 
-const ChatBox: React.FC<ChatBoxProps> = ({ currentUser, otherUser }) => {
+const ChatBox: React.FC<ChatBoxProps> = ({ currentUser, otherUser, onSend }) => {
 	const [message, setMessage] = useState("");
 	const [icebreaker, setIcebreaker] = useState("");
 	const [isLoading, setIsLoading] = useState(false);
@@ -34,13 +35,27 @@ const ChatBox: React.FC<ChatBoxProps> = ({ currentUser, otherUser }) => {
 			setMessage(icebreaker);
 			setIcebreaker("");
 		}
-	};
+  };
+  
+  function formatListWithAnd(items: string[]): string {
+    if (items.length === 0) return "";
+    if (items.length === 1) return items[0];
+    if (items.length === 2) return `${items[0]} and ${items[1]}`;
+
+    // For 3 or more items: "a, b, and c"
+    const allButLast = items.slice(0, -1).join(", ");
+    const last = items[items.length - 1];
+    return `${allButLast}, and ${last}`;
+  }
+
+  const sharedInterests = formatListWithAnd(currentUser.interests.filter(interest => otherUser.interests.includes(interest)));
 
 	return (
 		<div className="bg-white p-4 rounded-t-2xl shadow-lg border-t border-slate-200">
 			<div className="text-center mb-4">
 				<h3 className="font-bold">Chat with {otherUser.name}</h3>
-				<p className="text-xs text-slate-500">This is a simulated chat interface.</p>
+        <p className="text-xs text-slate-500">You are both interested in { sharedInterests }!</p>
+        
 			</div>
 
 			{icebreaker && (
@@ -94,7 +109,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ currentUser, otherUser }) => {
 					placeholder={`Message ${otherUser.name}...`}
 					className="flex-1 p-3 bg-slate-100 rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-brand-primary"
 				/>
-				<button className="p-3 bg-brand-primary text-white rounded-full">
+        <button onClick={onSend} className="p-3 bg-brand-primary text-white rounded-full">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-6 w-6"

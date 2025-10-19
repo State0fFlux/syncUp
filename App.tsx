@@ -9,6 +9,7 @@ import FriendsMode from './views/FriendsMode';
 import CommunityMode from './views/CommunityMode';
 import { ProfilePage } from './views/ProfilePage';
 import ChatBox from './components/ChatBox';
+import Banner from './components/banner';
 
 const HeaderIcon = () => (
     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-brand-primary">
@@ -29,6 +30,7 @@ const App: React.FC = () => {
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [allActivities, setAllActivities] = useState<Activity[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
+  const [bannerMessage, setBannerMessage] = useState<string | null>(null);
 
   useEffect(() => {
     // Only fetch data if a user is logged in.
@@ -88,6 +90,10 @@ const App: React.FC = () => {
     };
   }, [allUsers, allActivities, firebaseUser]);
 
+  const showPopup = (msg: string) => {
+  setBannerMessage(msg);
+  };
+
   const handleConnect = (user: User) => {
     setChattingWith(user);
   };
@@ -106,6 +112,20 @@ const App: React.FC = () => {
       </div>
     );
   }
+
+const handleSendMessage = () => {
+  // Close chat window
+  handleCloseChat();
+
+  // Show success banner
+  showPopup("Message sent!");
+};
+  
+  const handleProfileUpdate = () => {
+    showPopup("Profile updated!");
+    setMode(AppMode.Friends);
+}
+
 
   // If loading is finished and there's still no user, show the Auth page.
   if (!firebaseUser) {
@@ -161,10 +181,11 @@ const App: React.FC = () => {
             />
           ) : (
             <ProfilePage 
-              currentUser={currentUser} 
-              setCurrentUser={(u) => {
-                setAllUsers(prev => prev.map(user => user.id === u.id ? u : user));
-              }} 
+                  currentUser={currentUser}
+                  setCurrentUser={(u) => {
+                    setAllUsers(prev => prev.map(user => user.id === u.id ? u : user));
+                  }}
+                  onSave={handleProfileUpdate}
             />
           )}
         </main>
@@ -179,10 +200,18 @@ const App: React.FC = () => {
                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
                      </svg>
                  </button>
-                 <ChatBox currentUser={currentUser} otherUser={chattingWith} />
+                 <ChatBox currentUser={currentUser} otherUser={chattingWith} onSend={handleSendMessage} />
              </div>
            </div>
         )}
+
+        {bannerMessage && (
+          <Banner
+            message={bannerMessage}
+            onClose={() => setBannerMessage(null)}
+          />
+        )}
+
       </div>
     </div>
   );

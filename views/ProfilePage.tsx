@@ -10,9 +10,10 @@ import { signOut } from "firebase/auth";
 type ProfilePageProps = {
   currentUser: User;
   setCurrentUser: (user: User) => void;
+  onSave: () => void;
 };
 
-export const ProfilePage: React.FC<ProfilePageProps> = ({ currentUser, setCurrentUser }) => {
+export const ProfilePage: React.FC<ProfilePageProps> = ({ currentUser, setCurrentUser, onSave }) => {
   const [bio, setBio] = useState(currentUser.bio || "");
   const [interests, setInterests] = useState<string[]>(currentUser.interests || []);
   const [photo, setPhoto] = useState(currentUser.avatarUrl || "");
@@ -37,10 +38,6 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ currentUser, setCurren
   const handleLogout = async () => {
     await signOut(auth);
     window.location.reload(); // or redirect to Auth page
-  };
-
-  const handleClose = async() => {
-    //onClose();
   };
 
   return (
@@ -96,7 +93,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ currentUser, setCurren
           Log Out
         </button>
         <button 
-            onClick={handleSave}
+            onClick={onSave}
             className="ml-2 bg-gray-200 text-gray-700 py-2 px-4 rounded hover:bg-gray-300"
         >
             Save Changes

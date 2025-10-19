@@ -1,4 +1,3 @@
-
 # API Integrations for SyncUp
 
 This document outlines the key API integrations for the SyncUp MVP.
@@ -10,19 +9,14 @@ This document outlines the key API integrations for the SyncUp MVP.
 - **Implementation:** A function `generateIcebreaker` sends a prompt to the Gemini API and returns a text-based conversation starter.
 - **Authentication:** Requires an API key, which must be provided through the `process.env.API_KEY` environment variable.
 
-## 2. Google Maps API (Simulated)
+## 2. Mapbox API
 - **Purpose:**
-    - To display friend and community member locations on a map.
+    - To display friend and community member locations on a real, interactive map.
     - To enable proximity-based matching.
-- **Service File:** `src/services/maps.ts` (mocked)
-- **Implementation:** The current MVP uses a placeholder component (`MapView.tsx`) to simulate the map. A full implementation would require the Google Maps JavaScript API to render an interactive map and markers. Geolocation is requested to simulate fetching the user's current location.
+- **Service File:** `src/components/MapView.tsx`
+- **Implementation:** The app uses Mapbox GL JS to render an interactive map. A valid Mapbox Access Token must be provided in `src/config.ts`. The `MapView.tsx` component will render markers for users based on their location data. If the token is a placeholder, a fallback message is displayed instead of the map.
 
-## 3. Google Calendar API (Simulated)
-- **Purpose:** To sync user availability and display their status ("free," "busy," "social").
-- **Service File:** `src/services/calendar.ts` (mocked)
-- **Implementation:** The MVP uses mock data to represent calendar events and availability. A full implementation would use Google OAuth2 for user consent and the Google Calendar API to read calendar data.
-
-## 4. Firebase (Simulated)
+## 3. Firebase
 - **Purpose:** Backend services for Authentication, Firestore database, and Cloud Functions.
-- **Service File:** `src/services/firebase.ts` (mocked)
-- **Implementation:** All Firebase interactions are mocked. This includes user authentication, fetching/writing user profiles, friend lists, and activities.
+- **Service File:** `src/services/firebaseService.ts`
+- **Implementation:** The app is configured to connect to a Firebase project. A configuration object must be provided in `src/config.ts`. The service in `src/services/firebaseService.ts` will fetch live data from Firestore. If the configuration is a placeholder, the app will fall back to using mock data to ensure functionality.

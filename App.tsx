@@ -1,13 +1,11 @@
-
-import React, { useState, useMemo } from 'react';
-import { AppMode, User } from './types';
-import { MOCK_USERS, MOCK_ACTIVITIES, MOCK_CURRENT_USER_ID } from './services/mockData';
+import React, { useState, useMemo, useEffect } from 'react';
+import { AppMode, User, Activity } from './types';
+import { fetchAllUsers, fetchAllActivities } from './services/firebaseService';
 import ModeToggle from './components/ModeToggle';
 import FriendsMode from './views/FriendsMode';
 import CommunityMode from './views/CommunityMode';
 import ChatBox from './components/ChatBox';
 
-// A simple SVG icon for the header
 const HeaderIcon = () => (
     <svg width="32" height="32" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-brand-primary">
         <path d="M12 2C15.3137 2 18 4.68629 18 8C18 11.3137 15.3137 14 12 14C8.68629 14 6 11.3137 6 8C6 4.68629 8.68629 2 12 2Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -19,20 +17,46 @@ const HeaderIcon = () => (
     </svg>
 );
 
-
 const App: React.FC = () => {
   const [mode, setMode] = useState<AppMode>(AppMode.Friends);
   const [chattingWith, setChattingWith] = useState<User | null>(null);
+  const [allUsers, setAllUsers] = useState<User[]>([]);
+  const [allActivities, setAllActivities] = useState<Activity[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
-  // Memoize mock data processing to avoid re-computation on every render
+  useEffect(() => {
+    const loadData = async () => {
+      setIsLoading(true);
+      try {
+        const [users, activities] = await Promise.all([
+          fetchAllUsers(),
+          fetchAllActivities(),
+        ]);
+        setAllUsers(users);
+        setAllActivities(activities);
+      } catch (error) {
+        console.error("Failed to load app data", error);
+        // You could set an error state here to show a message to the user
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    loadData();
+  }, []);
+
   const { currentUser, friends, potentialConnections, communityEvents } = useMemo(() => {
-    const user = MOCK_USERS.find(u => u.id === MOCK_CURRENT_USER_ID)!;
+    // This identifies the "logged in" user from the data. In a real app, this would come from an auth service.
+    const MOCK_CURRENT_USER_ID = 'user-1';
     
-    const friendList = MOCK_USERS.filter(u => user.friends.includes(u.id));
+    const user = allUsers.find(u => u.id === MOCK_CURRENT_USER_ID);
     
-    const nonFriends = MOCK_USERS.filter(u => u.id !== user.id && !user.friends.includes(u.id));
-
-    const events = MOCK_ACTIVITIES.filter(act => act.type === 'Micro-Event');
+    if (!user) {
+      return { currentUser: null, friends: [], potentialConnections: [], communityEvents: [] };
+    }
+    
+    const friendList = allUsers.filter(u => user.friends.includes(u.id));
+    const nonFriends = allUsers.filter(u => u.id !== user.id && !user.friends.includes(u.id));
+    const events = allActivities.filter(act => act.type === 'Micro-Event');
 
     return { 
       currentUser: user,
@@ -40,7 +64,7 @@ const App: React.FC = () => {
       potentialConnections: nonFriends,
       communityEvents: events
     };
-  }, []);
+  }, [allUsers, allActivities]);
 
   const handleConnect = (user: User) => {
     setChattingWith(user);
@@ -50,6 +74,27 @@ const App: React.FC = () => {
     setChattingWith(null);
   };
 
+  if (isLoading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-light">
+        <div className="text-center">
+           <HeaderIcon />
+           <p className="mt-4 text-lg font-semibold text-brand-dark animate-pulse">Syncing up...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (!currentUser) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-brand-light text-center">
+        <div>
+          <h2 className="text-xl font-bold text-red-600">Loading Error</h2>
+          <p className="text-slate-600 mt-2">Could not load user data. Please ensure your Firebase configuration is correct and your database is populated.</p>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-brand-light font-sans antialiased">
@@ -71,15 +116,15 @@ const App: React.FC = () => {
             <FriendsMode 
               currentUser={currentUser}
               friends={friends} 
-              activities={MOCK_ACTIVITIES}
-              allUsers={MOCK_USERS}
+              activities={allActivities}
+              allUsers={allUsers}
             />
           ) : (
             <CommunityMode 
               currentUser={currentUser}
               potentialConnections={potentialConnections}
               communityEvents={communityEvents}
-              allUsers={MOCK_USERS}
+              allUsers={allUsers}
               onConnect={handleConnect}
             />
           )}

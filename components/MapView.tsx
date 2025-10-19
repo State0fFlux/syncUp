@@ -1,57 +1,92 @@
-
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { User, UserStatus } from '../types';
+import { mapboxAccessToken } from '../config';
+
+// Add a global declaration for mapboxgl since it's loaded from a script tag
+declare const mapboxgl: any;
 
 interface MapViewProps {
   users: User[];
   currentUser: User;
 }
 
-const statusColors: { [key in UserStatus]: string } = {
-  [UserStatus.Free]: 'bg-status-free',
-  [UserStatus.Social]: 'bg-status-social',
-  [UserStatus.Busy]: 'bg-status-busy',
-};
-
-// Helper to get a random-ish but stable position for mock map
-const getPosition = (id: string) => {
-  const hash = id.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  return {
-    top: `${(hash % 70) + 15}%`,
-    left: `${(hash % 80) + 10}%`,
-  };
-};
-
-const UserMarker: React.FC<{ user: User }> = ({ user }) => {
-  const pos = getPosition(user.id);
-  return (
-    <div
-      className="absolute flex flex-col items-center group cursor-pointer"
-      style={{ top: pos.top, left: pos.left, transform: 'translate(-50%, -50%)' }}
-    >
-      <div className="bg-white p-2 rounded-lg shadow-lg text-xs font-semibold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-300 -mt-12">
-        {user.name} - {user.location.zone}
-      </div>
-      <img src={user.avatarUrl} alt={user.name} className="w-12 h-12 rounded-full border-4 border-white shadow-xl object-cover" />
-      <span className={`absolute top-0 right-0 block h-4 w-4 rounded-full ${statusColors[user.status]} border-2 border-white`}></span>
-    </div>
-  );
-};
-
 const MapView: React.FC<MapViewProps> = ({ users, currentUser }) => {
-  return (
-    <div className="relative w-full h-96 bg-slate-200 rounded-2xl overflow-hidden shadow-inner">
-      {/* This is a placeholder for a real map integration like Google Maps API */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-100 to-emerald-100"></div>
-      <div className="absolute top-2 left-2 bg-white/50 backdrop-blur-sm p-2 rounded-lg text-xs text-slate-600">
-        Map View (Simulation)
-      </div>
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const map = useRef<any>(null);
+  const markers = useRef<any[]>([]);
 
-      {[currentUser, ...users].map((user) => (
-        <UserMarker key={user.id} user={user} />
-      ))}
-    </div>
-  );
+  const isTokenMissing = !mapboxAccessToken || mapboxAccessToken.startsWith('YOUR_');
+
+  // Initialize map
+  useEffect(() => {
+    if (isTokenMissing || !mapContainer.current) return;
+    if (map.current) return; // initialize map only once
+
+    mapboxgl.accessToken = mapboxAccessToken;
+    map.current = new mapboxgl.Map({
+      container: mapContainer.current,
+      style: 'mapbox://styles/mapbox/streets-v12',
+      center: [currentUser.location.lng, currentUser.location.lat],
+      zoom: 12,
+    });
+    // Add navigation controls
+    map.current.addControl(new mapboxgl.NavigationControl(), 'top-right');
+  }, [isTokenMissing, currentUser.location]);
+
+  // Update markers when users change
+  useEffect(() => {
+    if (isTokenMissing || !map.current) return;
+
+    // Clear existing markers
+    markers.current.forEach(marker => marker.remove());
+    markers.current = [];
+
+    [currentUser, ...users].forEach(user => {
+      const el = document.createElement('div');
+      el.className = 'w-12 h-12 rounded-full border-4 border-white shadow-xl bg-cover bg-center cursor-pointer';
+      el.style.backgroundImage = `url(${user.avatarUrl})`;
+
+      const statusColors: { [key in UserStatus]: string } = {
+        [UserStatus.Free]: '#22c55e',
+        [UserStatus.Social]: '#3b82f6',
+        [UserStatus.Busy]: '#ef4444',
+      };
+
+      const statusEl = document.createElement('span');
+      statusEl.className = 'absolute -top-1 -right-1 block h-4 w-4 rounded-full border-2 border-white';
+      statusEl.style.backgroundColor = statusColors[user.status];
+      el.appendChild(statusEl);
+
+      const marker = new mapboxgl.Marker({ element: el, anchor: 'bottom' })
+        .setLngLat([user.location.lng, user.location.lat])
+        .setPopup(
+          new mapboxgl.Popup({ offset: 35, closeButton: false }).setHTML(
+            `<div class="p-1 text-center">
+               <h3 class="font-bold text-md text-slate-800">${user.name}</h3>
+               <p class="text-sm text-slate-600">${user.location.zone}</p>
+             </div>`
+          )
+        )
+        .addTo(map.current);
+
+      markers.current.push(marker);
+    });
+
+  }, [users, currentUser, isTokenMissing]);
+
+  if (isTokenMissing) {
+    return (
+      <div className="relative w-full h-96 bg-slate-200 rounded-2xl overflow-hidden shadow-inner p-4 text-center flex flex-col justify-center items-center">
+        <svg xmlns="http://www.w3.org/2000/svg" className="h-12 w-12 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" /><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+        <h3 className="font-bold text-slate-700 mt-4">Map View Disabled</h3>
+        <p className="text-sm text-slate-500 mt-1 max-w-xs">
+          Please provide a valid Mapbox Access Token in the `config.ts` file to enable the interactive map.
+        </p>
+      </div>
+    );
+  }
+
+  return <div ref={mapContainer} className="w-full h-96 rounded-2xl shadow-lg" />;
 };
 
 export default MapView;

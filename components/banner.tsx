@@ -22,7 +22,7 @@ const Banner: React.FC<BannerProps> = ({ message, duration = 500, onClose }) => 
 
   return (
     <div className="fixed inset-0 flex items-center justify-center z-50 pointer-events-none">
-      <div className="bg-black text-white px-6 py-3 rounded-lg shadow-lg opacity-90 animate-fade-in-out">
+      <div className="secondary text-white text-sm font-semibold px-4 py-2 rounded-full">
         {message}
       </div>
     </div>

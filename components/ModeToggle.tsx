@@ -18,7 +18,7 @@ const ModeToggle: React.FC<ModeToggleProps> = ({ currentMode, onModeChange }) =>
           onClick={() => onModeChange(mode)}
           className={`px-6 py-2 rounded-full text-sm font-semibold transition-colors duration-300 ease-in-out
             ${currentMode === mode 
-              ? 'bg-brand-primary text-white shadow' 
+              ? 'bg-primary text-white shadow' 
               : 'text-slate-600 hover:bg-indigo-100'
             }`}
         >

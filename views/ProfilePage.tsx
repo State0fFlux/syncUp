@@ -94,8 +94,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ currentUser, setCurren
         </button>
         <button 
             onClick={onSave}
-            className="ml-2 bg-gray-200 text-gray-700 py-2 px-4 rounded hover:bg-gray-300"
-        >
+            className="join text-white text-sm font-semibold px-4 py-2 rounded-full hover:opacity-40 transition-opacity">
             Save Changes
         </button>
       </div>

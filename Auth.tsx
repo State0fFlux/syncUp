@@ -9,14 +9,9 @@ import { auth } from './services/firebaseService';
 import { ensureUserProfile } from './services/firebaseService';
 
 const HeaderIcon = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text---color-primary mx-auto">
-        <path d="M12 2C15.3137 2 18 4.68629 18 8C18 11.3137 15.3137 14 12 14C8.68629 14 6 11.3137 6 8C6 4.68629 8.68629 2 12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 14V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M9 18H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M18 8L21 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M6 8L3 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <path d="M12 2V5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
+  <div className="flex justify-center">
+    <img src="icon.svg" width="128" height="128" alt="My Icon" />
+  </div>
 );
 
 
@@ -76,7 +71,7 @@ const Auth: React.FC = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-brand-light px-4">
       <div className="max-w-md w-full bg-white p-8 rounded-2xl shadow-lg">
-        <HeaderIcon />
+        <HeaderIcon/>
         <h1 className="text-3xl font-bold text-center text-brand-dark mt-4">Welcome to SyncUp</h1>
         <p className="text-center text-slate-500 mt-2">
           {isLogin ? 'Sign in to find your circle.' : 'Create an account to get started.'}

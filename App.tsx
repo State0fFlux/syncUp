@@ -170,7 +170,7 @@ const handleSendMessage = () => {
             >
               <Bell className="w-6 h-6 text-slate-700" />
               {hasNotifications && (
-                <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white" />
+                <span className="absolute top-1 right-1 w-2.5 h-2.5 busy rounded-full ring-2 ring-white" />
               )}
             </button>
 

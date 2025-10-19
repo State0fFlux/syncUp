@@ -1,7 +1,7 @@
 
-# SyncUp
+# syncUp
 
-SyncUp is a web application designed to help users connect with friends or meet new local people based on proximity, shared availability, and interests. The app promotes belonging, spontaneous connection, and personal growth.
+syncUp is a web application designed to help users connect with friends or meet new local people based on proximity, shared availability, and interests. The app promotes belonging, spontaneous connection, and personal growth.
 
 ## Modes
 

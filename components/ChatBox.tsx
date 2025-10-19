@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from "react";
 import { User } from "../types";
-//import { generateIcebreaker } from '../services/aiService';
 
 interface ChatBoxProps {
 	currentUser: User;
@@ -20,8 +19,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ currentUser, otherUser, onSend }) => 
 			const sharedInterests = currentUser.interests.filter((interest) =>
 				otherUser.interests.includes(interest)
 			);
-			//const result = await generateIcebreaker(sharedInterests);
-			//setIcebreaker(result);
 		} catch (error) {
 			console.error("Failed to generate icebreaker", error);
 			setIcebreaker("Sorry, couldn't generate a prompt right now.");
@@ -63,7 +60,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ currentUser, otherUser, onSend }) => 
 					<p className="text-sm text-indigo-800 italic">"{icebreaker}"</p>
 					<button
 						onClick={handleUseIcebreaker}
-						className="mt-2 text-xs font-semibold text-brand-primary hover:underline">
+						className="mt-2 text-xs font-semibold text-primary hover:underline">
 						Use this opener
 					</button>
 				</div>
@@ -73,10 +70,10 @@ const ChatBox: React.FC<ChatBoxProps> = ({ currentUser, otherUser, onSend }) => 
 				<button
 					onClick={handleGenerateIcebreaker}
 					disabled={isLoading}
-					className="p-2 bg-slate-100 rounded-full text-brand-primary disabled:opacity-50 disabled:cursor-not-allowed">
+					className="p-2 bg-slate-100 rounded-full text-primary disabled:opacity-50 disabled:cursor-not-allowed">
 					{isLoading ? (
 						<svg
-							className="animate-spin h-5 w-5 text-brand-primary"
+							className="animate-spin h-5 w-5 text-primary"
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
 							viewBox="0 0 24 24">
@@ -107,9 +104,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({ currentUser, otherUser, onSend }) => 
 					value={message}
 					onChange={(e) => setMessage(e.target.value)}
 					placeholder={`Message ${otherUser.name}...`}
-					className="flex-1 p-3 bg-slate-100 rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-brand-primary"
+					className="flex-1 p-3 bg-slate-100 rounded-full border border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
 				/>
-        <button onClick={onSend} className="p-3 bg-brand-primary text-white rounded-full">
+        <button onClick={onSend} className="p-3 bg-primary text-white rounded-full">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
 						className="h-6 w-6"

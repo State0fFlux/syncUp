@@ -72,7 +72,7 @@ const NotificationPage: React.FC<NotificationPageProps> = ({ currentUser }) => {
                 className="flex items-center space-x-3 p-4 bg-slate-100 rounded-lg hover:bg-slate-200 transition-colors cursor-pointer"
               >
                 {/* New red dot */}
-                {notif.isNew && <div className="w-2.5 h-2.5 bg-red-500 rounded-full flex-shrink-0" />}
+                {notif.isNew && <div className="w-2.5 h-2.5 busy rounded-full flex-shrink-0" />}
   
                 {/* Type Icon */}
                 <div className="flex-shrink-0 w-10 h-10 flex items-center justify-center rounded-full bg-indigo-200 text-indigo-700">

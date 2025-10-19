@@ -41,7 +41,7 @@ const UserProfileCard: React.FC<UserProfileCardProps> = ({ user, currentUser, on
       </div>
       <button 
         onClick={() => onConnect(user)}
-        className="mt-6 w-full bg-brand-primary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
+        className="mt-6 w-full bg-primary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition-all duration-300 transform hover:scale-105"
       >
         Connect
       </button>

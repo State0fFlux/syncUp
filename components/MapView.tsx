@@ -47,9 +47,9 @@ const MapView: React.FC<MapViewProps> = ({ users, currentUser }) => {
       el.style.backgroundImage = `url(${user.avatarUrl})`;
 
       const statusColors: { [key in UserStatus]: string } = {
-        [UserStatus.Free]: '#22c55e',
-        [UserStatus.Social]: '#3b82f6',
-        [UserStatus.Busy]: '#ef4444',
+        [UserStatus.Free]: '#a3e3a1',
+        [UserStatus.Social]: '#6587d6',
+        [UserStatus.Busy]: '#f19351',
       };
 
       const statusEl = document.createElement('span');

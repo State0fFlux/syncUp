@@ -2,12 +2,15 @@ import React, { useState, useMemo, useEffect } from 'react';
 import { AppMode, User, Activity } from './types';
 import { fetchAllUsers, fetchAllActivities } from './services/firebaseService';
 import { useAuth } from './AuthContext';
+import { Bell } from "lucide-react";
+
 
 import Auth from './Auth';
 import ModeToggle from './components/ModeToggle';
 import FriendsMode from './views/FriendsMode';
 import CommunityMode from './views/CommunityMode';
 import { ProfilePage } from './views/ProfilePage';
+import NotificationPage from './views/NotificationPage';
 import ChatBox from './components/ChatBox';
 import Banner from './components/banner';
 
@@ -31,6 +34,11 @@ const App: React.FC = () => {
   const [allActivities, setAllActivities] = useState<Activity[]>([]);
   const [dataLoading, setDataLoading] = useState(true);
   const [bannerMessage, setBannerMessage] = useState<string | null>(null);
+  const [showProfile, setShowProfile] = useState(false);
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [hasNotifications, setHasNotifications] = useState(true);
+
+
 
   useEffect(() => {
     // Only fetch data if a user is logged in.
@@ -156,7 +164,30 @@ const handleSendMessage = () => {
             <HeaderIcon/>
             <h1 className="text-2xl font-bold text-brand-dark">SyncUp</h1>
           </div>
-          <img src={currentUser.avatarUrl} alt="Your Avatar" className="w-10 h-10 rounded-full border-2 border-white shadow-sm" onClick={() => setMode(AppMode.Profile)} />
+          <div className="flex items-center space-x-3">
+            {/* Notification Bell */}
+            <button
+              onClick={() => setShowNotifications(true)}
+              className="relative rounded-full p-2 transition-colors duration-300 ease-in-out hover:bg-indigo-100"
+            >
+              <Bell className="w-6 h-6 text-slate-700" />
+              {hasNotifications && (
+                <span className="absolute top-1 right-1 w-2.5 h-2.5 bg-red-500 rounded-full ring-2 ring-white" />
+              )}
+            </button>
+
+            {/* Profile Avatar */}
+            <button
+              onClick={() => setShowProfile(true)}
+              className="rounded-full p-1 transition-colors duration-300 ease-in-out hover:bg-indigo-100"
+            >
+              <img
+                src={currentUser.avatarUrl}
+                alt="Profile"
+                className="w-10 h-10 rounded-full object-cover"
+              />
+            </button>
+          </div>  
         </header>
         
         <div className="flex justify-center my-4">
@@ -167,25 +198,17 @@ const handleSendMessage = () => {
           {mode === AppMode.Friends ? (
             <FriendsMode 
               currentUser={currentUser}
-              friends={friends} 
+              friends={friends}
               activities={allActivities}
               allUsers={allUsers}
             />
-          ) : mode === AppMode.Community ? (
+          ) : (
             <CommunityMode 
               currentUser={currentUser}
               potentialConnections={potentialConnections}
               communityEvents={communityEvents}
               allUsers={allUsers}
               onConnect={handleConnect}
-            />
-          ) : (
-            <ProfilePage 
-                  currentUser={currentUser}
-                  setCurrentUser={(u) => {
-                    setAllUsers(prev => prev.map(user => user.id === u.id ? u : user));
-                  }}
-                  onSave={handleProfileUpdate}
             />
           )}
         </main>
@@ -210,6 +233,42 @@ const handleSendMessage = () => {
             message={bannerMessage}
             onClose={() => setBannerMessage(null)}
           />
+        )}
+
+        {/* Profile Modal */}
+        {showProfile && (
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-end justify-center">
+            <div className="w-full max-w-lg relative">
+              <button
+                onClick={() => setShowProfile(false)}
+                className="absolute -top-12 right-4 bg-white/80 p-2 rounded-full text-slate-700"
+              >
+                ✕
+              </button>
+              <ProfilePage
+                currentUser={currentUser}
+                setCurrentUser={(u) => {
+                  setAllUsers(prev => prev.map(user => user.id === u.id ? u : user));
+                }}
+                onSave={handleProfileUpdate}
+              />
+            </div>
+          </div>
+        )}
+
+        {/* Notifications Modal */}
+        {showNotifications && (
+          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-end justify-center">
+            <div className="w-full max-w-lg relative">
+              <button
+                onClick={() => setShowNotifications(false)}
+                className="absolute -top-12 right-4 bg-white/80 p-2 rounded-full text-slate-700"
+              >
+                ✕
+              </button>
+              <NotificationPage currentUser={currentUser} />
+            </div>
+          </div>
         )}
 
       </div>

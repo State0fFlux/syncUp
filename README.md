@@ -21,8 +21,12 @@ This is a scaffolded project. To run it, you would typically install dependencie
 # This project is designed for an environment that handles dependencies.
 # If running locally, you would need to set up a React environment.
 
-# Set your Gemini API Key
-export API_KEY="YOUR_GEMINI_API_KEY"
+# Set your Gemini API Key (Vite expects client vars to be prefixed with VITE_)
+# Local (zsh)
+export VITE_GEMINI_API_KEY="YOUR_GEMINI_API_KEY"
+
+# Or create a .env file at the project root with:
+# VITE_GEMINI_API_KEY=YOUR_GEMINI_API_KEY
 ```
 
 ## Features (MVP)

@@ -1,11 +1,12 @@
-
+/*
 import { GoogleGenAI } from "@google/genai";
 
-// Assume API_KEY is set in the environment
-const API_KEY = process.env.API_KEY;
+// Vite exposes client env variables through import.meta.env and
+// client-exposed vars must start with VITE_. Use VITE_GEMINI_API_KEY.
+const API_KEY = (import.meta as any)?.env?.VITE_GEMINI_API_KEY;
 
 if (!API_KEY) {
-  console.warn("API_KEY environment variable not set. AI features will be disabled.");
+  console.warn("VITE_GEMINI_API_KEY not set. AI features will be disabled.");
 }
 
 const ai = new GoogleGenAI({ apiKey: API_KEY });
@@ -15,6 +16,7 @@ const ai = new GoogleGenAI({ apiKey: API_KEY });
  * @param interests - An array of shared interests to base the question on.
  * @returns A promise that resolves to a string containing the icebreaker.
  */
+/*
 export const generateIcebreaker = async (interests: string[]): Promise<string> => {
   if (!API_KEY) {
     return "What's a fun fact about you?"; // Fallback question
@@ -39,3 +41,4 @@ export const generateIcebreaker = async (interests: string[]): Promise<string> =
     return "What's the best thing that happened to you this week?"; // Fallback question on error
   }
 };
+*/

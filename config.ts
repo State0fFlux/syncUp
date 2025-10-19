@@ -2,18 +2,16 @@
 
 /**
  * Firebase Configuration
- * 
- * PASTE YOUR FIREBASE PROJECT CONFIGURATION HERE.
- * You can find this in your Firebase project settings:
- * Project Settings > General > Your apps > Web app > SDK setup and configuration
+
  */
 export const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyAMmArUjA5Cro-PDpyabQGexs9KZ3MH7dU",
+  authDomain: "syncup-1360e.firebaseapp.com",
+  projectId: "syncup-1360e",
+  storageBucket: "syncup-1360e.firebasestorage.app",
+  messagingSenderId: "389802074435",
+  appId: "1:389802074435:web:70ee23b7a79a2da94c0ff6",
+  measurementId: "G-RKM68KLK0H"
 };
 
 /**

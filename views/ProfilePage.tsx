@@ -18,7 +18,7 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ currentUser, setCurren
   const [interests, setInterests] = useState<string[]>(currentUser.interests || []);
   const [photo, setPhoto] = useState(currentUser.avatarUrl || "");
 
-  const allInterests = ["Hiking", "Music", "Tech", "Cooking", "Art", "Gaming"];
+  const allInterests = ["Hiking", "Music", "Tech", "Cooking", "Art", "Gaming", "Fashion", "Design", "Sports", "Film"];
 
   const handlePhotoChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {

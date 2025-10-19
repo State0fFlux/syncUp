@@ -110,6 +110,10 @@ const App: React.FC = () => {
     setChattingWith(null);
   };
 
+  const handleCloseProfile = () => {
+    setShowProfile(false);
+  }
+
   if (authLoading || dataLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-brand-light">
@@ -132,6 +136,7 @@ const handleSendMessage = () => {
   const handleProfileUpdate = () => {
     showPopup("Profile updated!");
     setMode(AppMode.Friends);
+    handleCloseProfile();
 }
 
 
@@ -237,11 +242,11 @@ const handleSendMessage = () => {
 
         {/* Profile Modal */}
         {showProfile && (
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-end justify-center">
-            <div className="w-full max-w-lg relative">
+          <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+            <div className="relative bg-white rounded-2xl shadow-2xl p-8 w-[90%] max-w-4xl h-[80%] overflow-y-auto">
               <button
-                onClick={() => setShowProfile(false)}
-                className="absolute -top-12 right-4 bg-white/80 p-2 rounded-full text-slate-700"
+                onClick={handleCloseProfile}
+                className="absolute top-3 right-5 text-gray-500 hover:text-gray-700 transition-colors"
               >
                 ✕
               </button>
@@ -258,11 +263,11 @@ const handleSendMessage = () => {
 
         {/* Notifications Modal */}
         {showNotifications && (
-          <div className="fixed inset-0 bg-black/30 backdrop-blur-sm z-40 flex items-end justify-center">
-            <div className="w-full max-w-lg relative">
+          <div className="fixed inset-0 flex items-center justify-center bg-black/40 backdrop-blur-sm z-50">
+            <div className="relative bg-white rounded-2xl shadow-2xl p-8 w-[90%] max-w-4xl h-[80%] overflow-y-auto">
               <button
                 onClick={() => setShowNotifications(false)}
-                className="absolute -top-12 right-4 bg-white/80 p-2 rounded-full text-slate-700"
+                className="absolute top-3 right-5 text-gray-500 hover:text-gray-700 transition-colors"
               >
                 ✕
               </button>

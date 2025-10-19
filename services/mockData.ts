@@ -12,6 +12,7 @@ export const MOCK_USERS: User[] = [
     interests: ['music', 'coffee', 'fitness', 'startups'],
     location: { lat: 34.0522, lng: -118.2437, zone: 'Downtown LA' },
     friends: ['user-2', 'user-3', 'user-4'],
+    bio: "hello!"
   },
   {
     id: 'user-2',
@@ -21,6 +22,7 @@ export const MOCK_USERS: User[] = [
     interests: ['hiking', 'art', 'coffee'],
     location: { lat: 34.06, lng: -118.25, zone: 'Echo Park' },
     friends: ['user-1'],
+    bio: ""
   },
   {
     id: 'user-3',
@@ -30,6 +32,7 @@ export const MOCK_USERS: User[] = [
     interests: ['tech', 'gaming', 'startups'],
     location: { lat: 34.1, lng: -118.3, zone: 'Hollywood' },
     friends: ['user-1', 'user-4'],
+    bio: ""
   },
   {
     id: 'user-4',
@@ -39,6 +42,7 @@ export const MOCK_USERS: User[] = [
     interests: ['music', 'reading', 'yoga'],
     location: { lat: 34.04, lng: -118.26, zone: 'Arts District' },
     friends: ['user-1', 'user-3'],
+    bio: ""
   },
   {
     id: 'user-5',
@@ -48,6 +52,7 @@ export const MOCK_USERS: User[] = [
     interests: ['fitness', 'startups', 'coffee'],
     location: { lat: 34.055, lng: -118.24, zone: 'Little Tokyo' },
     friends: [],
+    bio: ""
   },
   {
     id: 'user-6',
@@ -57,6 +62,7 @@ export const MOCK_USERS: User[] = [
     interests: ['art', 'music', 'foodie'],
     location: { lat: 34.07, lng: -118.23, zone: 'Silver Lake' },
     friends: [],
+    bio: ""
   },
 ];
 

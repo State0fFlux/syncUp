@@ -6,6 +6,7 @@ import { auth } from "../services/firebaseService";
 import { signOut } from "firebase/auth";
 
 
+
 type ProfilePageProps = {
   currentUser: User;
   setCurrentUser: (user: User) => void;
@@ -36,6 +37,10 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ currentUser, setCurren
   const handleLogout = async () => {
     await signOut(auth);
     window.location.reload(); // or redirect to Auth page
+  };
+
+  const handleClose = async() => {
+    //onClose();
   };
 
   return (
@@ -87,10 +92,15 @@ export const ProfilePage: React.FC<ProfilePageProps> = ({ currentUser, setCurren
       </div>
 
       <div className="flex justify-between mt-6">
-        <button variant="outline" onClick={handleLogout}>
+        <button onClick={handleLogout}>
           Log Out
         </button>
-        <button onClick={handleSave}>Save Changes</button>
+        <button 
+            onClick={handleSave}
+            className="ml-2 bg-gray-200 text-gray-700 py-2 px-4 rounded hover:bg-gray-300"
+        >
+            Save Changes
+        </button>
       </div>
     </div>
   );

@@ -1,25 +1,31 @@
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getFirestore, collection, getDocs, query } from "firebase/firestore";
 import { firebaseConfig } from '../config';
 import { User, Activity } from '../types';
 import { MOCK_USERS, MOCK_ACTIVITIES } from './mockData';
 
-// A simple check to see if the config is still a placeholder
-const isConfigPlaceholder = !firebaseConfig.apiKey || firebaseConfig.apiKey.startsWith("YOUR_");
+const isConfigMissing = !firebaseConfig.apiKey || !firebaseConfig.projectId;
 
+let app;
 let db: any = null;
+let auth: any = null;
 
-if (!isConfigPlaceholder) {
+if (!isConfigMissing) {
   try {
-    const app = initializeApp(firebaseConfig);
+    app = initializeApp(firebaseConfig);
     db = getFirestore(app);
+    auth = getAuth(app);
     console.log("Firebase initialized successfully.");
   } catch (error) {
     console.error("Firebase initialization failed. Falling back to mock data.", error);
   }
 } else {
-  console.warn("Using mock data because Firebase config contains placeholder values.");
+  console.warn("Using mock data because Firebase environment variables are not set.");
 }
+
+// Export auth for use in other parts of the app
+export { auth };
 
 /**
  * Fetches all users from Firestore.
@@ -27,7 +33,7 @@ if (!isConfigPlaceholder) {
  * @returns A promise that resolves to an array of User objects.
  */
 export const fetchAllUsers = async (): Promise<User[]> => {
-  if (isConfigPlaceholder || !db) {
+  if (isConfigMissing || !db) {
     return Promise.resolve(MOCK_USERS);
   }
   try {
@@ -52,7 +58,7 @@ export const fetchAllUsers = async (): Promise<User[]> => {
  * @returns A promise that resolves to an array of Activity objects.
  */
 export const fetchAllActivities = async (): Promise<Activity[]> => {
-  if (isConfigPlaceholder || !db) {
+  if (isConfigMissing || !db) {
     return Promise.resolve(MOCK_ACTIVITIES);
   }
   try {

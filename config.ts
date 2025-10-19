@@ -2,22 +2,22 @@
 
 /**
  * Firebase Configuration
-
+ * 
+ * Reads your Firebase project configuration from environment variables.
+ * These variables should be set in a .env file locally.
  */
 export const firebaseConfig = {
-  apiKey: "AIzaSyAMmArUjA5Cro-PDpyabQGexs9KZ3MH7dU",
-  authDomain: "syncup-1360e.firebaseapp.com",
-  projectId: "syncup-1360e",
-  storageBucket: "syncup-1360e.firebasestorage.app",
-  messagingSenderId: "389802074435",
-  appId: "1:389802074435:web:70ee23b7a79a2da94c0ff6",
-  measurementId: "G-RKM68KLK0H"
+  apiKey: process.env.FIREBASE_API_KEY,
+  authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+  projectId: process.env.FIREBASE_PROJECT_ID,
+  storageBucket: process.env.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: process.env.FIREBASE_MESSAGING_SENDER_ID,
+  appId: process.env.FIREBASE_APP_ID
 };
 
 /**
  * Mapbox Access Token
  * 
- * PASTE YOUR MAPBOX ACCESS TOKEN HERE.
- * You can create one from your Mapbox account dashboard.
+ * Reads your Mapbox access token from environment variables.
  */
-export const mapboxAccessToken = "YOUR_MAPBOX_ACCESS_TOKEN";
+export const mapboxAccessToken = process.env.MAPBOX_ACCESS_TOKEN;

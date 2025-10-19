@@ -1,6 +1,9 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import { AppMode, User, Activity } from './types';
 import { fetchAllUsers, fetchAllActivities } from './services/firebaseService';
+import { useAuth } from './AuthContext';
+
+import Auth from './Auth';
 import ModeToggle from './components/ModeToggle';
 import FriendsMode from './views/FriendsMode';
 import CommunityMode from './views/CommunityMode';
@@ -18,15 +21,23 @@ const HeaderIcon = () => (
 );
 
 const App: React.FC = () => {
+  const { user: firebaseUser, loading: authLoading } = useAuth();
+  
   const [mode, setMode] = useState<AppMode>(AppMode.Friends);
   const [chattingWith, setChattingWith] = useState<User | null>(null);
   const [allUsers, setAllUsers] = useState<User[]>([]);
   const [allActivities, setAllActivities] = useState<Activity[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [dataLoading, setDataLoading] = useState(true);
 
   useEffect(() => {
+    // Only fetch data if a user is logged in.
+    if (!firebaseUser) {
+      setDataLoading(false);
+      return;
+    };
+
     const loadData = async () => {
-      setIsLoading(true);
+      setDataLoading(true);
       try {
         const [users, activities] = await Promise.all([
           fetchAllUsers(),
@@ -36,26 +47,36 @@ const App: React.FC = () => {
         setAllActivities(activities);
       } catch (error) {
         console.error("Failed to load app data", error);
-        // You could set an error state here to show a message to the user
       } finally {
-        setIsLoading(false);
+        setDataLoading(false);
       }
     };
     loadData();
-  }, []);
+  }, [firebaseUser]);
 
   const { currentUser, friends, potentialConnections, communityEvents } = useMemo(() => {
-    // This identifies the "logged in" user from the data. In a real app, this would come from an auth service.
-    const MOCK_CURRENT_USER_ID = 'user-1';
+    if (!firebaseUser) {
+      return { currentUser: null, friends: [], potentialConnections: [], communityEvents: [] };
+    }
+
+    // NOTE: In a real app, you MUST ensure a user profile document exists in Firestore
+    // with an ID that matches the Firebase Auth user's UID.
+    // For this demo with mock data, we'll fall back to 'user-1' if the UID isn't found.
+    const currentUserId = firebaseUser.uid;
+    let user = allUsers.find(u => u.id === currentUserId);
     
-    const user = allUsers.find(u => u.id === MOCK_CURRENT_USER_ID);
+    if (!user) {
+      // This fallback makes the app work with mock data without a real Firestore entry.
+      // In production, you might want to show an error or a profile creation screen.
+      user = allUsers.find(u => u.id === 'user-1');
+    }
     
     if (!user) {
       return { currentUser: null, friends: [], potentialConnections: [], communityEvents: [] };
     }
     
-    const friendList = allUsers.filter(u => user.friends.includes(u.id));
-    const nonFriends = allUsers.filter(u => u.id !== user.id && !user.friends.includes(u.id));
+    const friendList = allUsers.filter(u => user!.friends.includes(u.id));
+    const nonFriends = allUsers.filter(u => u.id !== user!.id && !user!.friends.includes(u.id));
     const events = allActivities.filter(act => act.type === 'Micro-Event');
 
     return { 
@@ -64,7 +85,7 @@ const App: React.FC = () => {
       potentialConnections: nonFriends,
       communityEvents: events
     };
-  }, [allUsers, allActivities]);
+  }, [allUsers, allActivities, firebaseUser]);
 
   const handleConnect = (user: User) => {
     setChattingWith(user);
@@ -74,7 +95,7 @@ const App: React.FC = () => {
     setChattingWith(null);
   };
 
-  if (isLoading) {
+  if (authLoading || dataLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-brand-light">
         <div className="text-center">
@@ -85,12 +106,22 @@ const App: React.FC = () => {
     );
   }
 
+  // If loading is finished and there's still no user, show the Auth page.
+  if (!firebaseUser) {
+    return <Auth />;
+  }
+
+  // If user is authenticated but we couldn't find their profile data.
   if (!currentUser) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-brand-light text-center">
+      <div className="min-h-screen flex items-center justify-center bg-brand-light text-center p-4">
         <div>
-          <h2 className="text-xl font-bold text-red-600">Loading Error</h2>
-          <p className="text-slate-600 mt-2">Could not load user data. Please ensure your Firebase configuration is correct and your database is populated.</p>
+          <h2 className="text-xl font-bold text-red-600">Error: User Profile Not Found</h2>
+          <p className="text-slate-600 mt-2">
+            You are authenticated, but we couldn't find a user profile for you in the database.
+            Please ensure a document exists in the 'users' collection with the ID: <br />
+            <strong className="font-mono text-sm break-all">{firebaseUser.uid}</strong>
+          </p>
         </div>
       </div>
     );

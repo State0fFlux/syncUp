@@ -1,0 +1,7 @@
+{
+  "name": "syncUp-v2",
+  "description": "A web application to help users connect with friends or meet new local people based on proximity, shared availability, and interests.",
+  "requestFramePermissions": [
+    "geolocation"
+  ]
+}

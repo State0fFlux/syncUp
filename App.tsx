@@ -167,7 +167,7 @@ const handleSendMessage = () => {
         <header className="p-4 flex justify-between items-center sticky top-0 z-10 bg-brand-light/80 backdrop-blur-lg">
           <div className="flex items-center space-x-2">
             <HeaderIcon/>
-            <h1 className="text-2xl font-bold text-brand-dark">SyncUp</h1>
+            <h1 className="text-2xl font-bold text-brand-dark">syncUp</h1>
           </div>
           <div className="flex items-center space-x-3">
             {/* Notification Bell */}

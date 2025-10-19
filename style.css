@@ -1,0 +1,19 @@
+/* Palette */
+:root {
+  --light: #FEE9E1;
+  --dark: #231B1B;
+  --primary: #CC444B;
+  --secondary: #8D91C7;
+  --status-free: #a3e3a1;
+  --status-busy: #f19351;
+  --status-social: #6587d6;
+}
+
+
+
+/* Fonts */
+body, html {
+  font-family: "Inter", sans-serif;
+  margin: 0;
+  padding: 0;
+}

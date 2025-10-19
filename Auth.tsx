@@ -9,7 +9,7 @@ import { auth } from './services/firebaseService';
 import { ensureUserProfile } from './services/firebaseService';
 
 const HeaderIcon = () => (
-    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text-brand-primary mx-auto">
+    <svg width="48" height="48" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="text---color-primary mx-auto">
         <path d="M12 2C15.3137 2 18 4.68629 18 8C18 11.3137 15.3137 14 12 14C8.68629 14 6 11.3137 6 8C6 4.68629 8.68629 2 12 2Z" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M12 14V22" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
         <path d="M9 18H15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
@@ -97,7 +97,7 @@ const Auth: React.FC = () => {
             placeholder="Email Address"
             required
             disabled={!isFirebaseConfigured}
-            className="w-full p-3 bg-slate-100 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-brand-primary disabled:opacity-50"
+            className="w-full p-3 bg-slate-100 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring---color-primary disabled:opacity-50"
           />
           <input
             type="password"
@@ -106,9 +106,9 @@ const Auth: React.FC = () => {
             placeholder="Password"
             required
             disabled={!isFirebaseConfigured}
-            className="w-full p-3 bg-slate-100 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring-brand-primary disabled:opacity-50"
+            className="w-full p-3 bg-slate-100 rounded-lg border border-transparent focus:outline-none focus:ring-2 focus:ring---color-primary disabled:opacity-50"
           />
-          <button type="submit" disabled={loading || !isFirebaseConfigured} className="w-full bg-brand-primary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition-all duration-300 disabled:bg-opacity-50">
+          <button type="submit" disabled={loading || !isFirebaseConfigured} className="w-full bg---color-primary text-white font-bold py-3 rounded-lg hover:bg-opacity-90 transition-all duration-300 disabled:bg-opacity-50">
             {loading ? 'Processing...' : (isLogin ? 'Sign In' : 'Create Account')}
           </button>
         </form>
@@ -128,7 +128,7 @@ const Auth: React.FC = () => {
 
         <p className="mt-8 text-center text-sm">
           {isLogin ? "Don't have an account?" : 'Already have an account?'}
-          <button onClick={() => setIsLogin(!isLogin)} className="font-semibold text-brand-primary hover:underline ml-1">
+          <button onClick={() => setIsLogin(!isLogin)} className="font-semibold text---color-primary hover:underline ml-1">
             {isLogin ? 'Sign Up' : 'Sign In'}
           </button>
         </p>

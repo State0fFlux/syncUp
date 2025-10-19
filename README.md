@@ -43,15 +43,6 @@ Essentially, syncUp aims to **turn urban isolation into connectedness**, fosteri
 - Mapbox
 - Google AI Studio
 
-## Our Challenges
-Working with Google AI Studio was a challenge for the both of us, as this was our first time working with prompt engineering at this scale. One of the challenges we faced related to this first phase was building the right base. We experimented with a variety of prompts and platforms until we had reached an appropriate base to develop upon.
-
-## Our Accomplishments
-Working as a team of two, we are incredibly proud of the amount of progress we in carrying out our app's implementation. While there is still much to improve for syncUp, we are proud of our app's design and its approach to solving modern issues in the social world, all within such a tight deadline. 
-
-## Our Lessons
-A key lesson that our team learned during the development of syncUp is the power of AI, when used strategically. When experimenting with prompt engineering, we found it was vital to plan out our app concept in heavy detail, including implementation details and file structure, as this improved the quality of the resulting foundation.
-
 ## What's next for syncUp?
 ### AI Enhancements
 - Use smart clustering and embeddings to match users by activity patterns & interests

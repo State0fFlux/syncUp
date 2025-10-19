@@ -3,8 +3,6 @@ import { AppMode, User, Activity } from './types';
 import { fetchAllUsers, fetchAllActivities } from './services/firebaseService';
 import { useAuth } from './AuthContext';
 import { Bell } from "lucide-react";
-
-
 import Auth from './Auth';
 import ModeToggle from './components/ModeToggle';
 import FriendsMode from './views/FriendsMode';
